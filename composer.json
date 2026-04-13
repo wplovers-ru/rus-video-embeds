@@ -1,0 +1,17 @@
+{
+    "name": "rus-video-embeds/rus-video-embeds",
+    "description": "WordPress plugin for embedding VK Video, Rutube and Dzen videos",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "RusVideoEmbeds\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

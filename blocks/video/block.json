@@ -1,0 +1,31 @@
+{
+    "apiVersion": 3,
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "name": "rus-video-embeds/video",
+    "version": "1.0.0",
+    "title": "Видео RU",
+    "category": "embed",
+    "icon": "video-alt3",
+    "description": "Встраивание видео с VK Видео, Rutube и Дзен",
+    "keywords": ["video", "видео", "vk", "rutube", "дзен", "dzen", "embed"],
+    "textdomain": "rus-video-embeds",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "url": {
+            "type": "string",
+            "default": ""
+        },
+        "aspectRatio": {
+            "type": "string",
+            "default": "16:9"
+        },
+        "autoplay": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "editorScript": "file:./build/index.js"
+}

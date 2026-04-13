@@ -1,0 +1,6 @@
+openspec/
+.cursor/
+node_modules/
+vendor/
+.DS_Store
+composer.phar
