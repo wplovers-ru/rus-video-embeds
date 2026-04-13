@@ -25,3 +25,46 @@
         aspect-ratio: inherit;
     }
 }
+
+.rve-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 800px;
+    margin: 1em auto;
+    padding: 16px 20px;
+    background: #fef9e7;
+    border: 1px solid #f0d58c;
+    border-left: 4px solid #dba617;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #3c3c3c;
+}
+
+.rve-notice__icon {
+    flex-shrink: 0;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.rve-notice__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.rve-notice__message {
+    margin: 0 0 8px;
+}
+
+.rve-notice__link {
+    display: inline-block;
+    color: #0073aa;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.rve-notice__link:hover {
+    color: #005177;
+    text-decoration: underline;
+}

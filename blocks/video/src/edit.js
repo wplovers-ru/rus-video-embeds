@@ -10,6 +10,7 @@ import {
     TextControl,
     Placeholder,
     Spinner,
+    Notice,
 } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { useState } from '@wordpress/element';
@@ -25,7 +26,17 @@ const URL_PATTERNS = [
     /https?:\/\/vkvideo\.ru\/video-?\d+_\d+/i,
     /https?:\/\/(?:www\.)?rutube\.ru\/(?:video|play\/embed)\/[a-f0-9]+\/?/i,
     /https?:\/\/(?:(?:www\.)?dzen\.ru|zen\.yandex\.ru)\/video\/watch\/[a-zA-Z0-9]+/i,
+    /https?:\/\/(?:www\.)?dzen\.ru\/embed\/[a-zA-Z0-9]+/i,
 ];
+
+const DZEN_WATCH_PATTERN =
+    /https?:\/\/(?:(?:www\.)?dzen\.ru|zen\.yandex\.ru)\/video\/watch\/[a-zA-Z0-9]+/i;
+
+const DZEN_IFRAME_PATTERN =
+    /<iframe[^>]+src=["']([^"']*dzen\.ru\/embed\/[a-zA-Z0-9]+)[^"']*["']/i;
+
+const DZEN_EMBED_PATTERN =
+    /https?:\/\/(?:www\.)?dzen\.ru\/embed\/[a-zA-Z0-9]+/i;
 
 /**
  * Checks if a URL matches any of the supported video providers.
@@ -38,11 +49,60 @@ function isValidProviderUrl(url) {
 }
 
 /**
+ * Checks if a URL is a Dzen watch-URL (not directly embeddable).
+ *
+ * @param {string} url The URL to check.
+ * @returns {boolean} True if the URL is a Dzen watch-URL.
+ */
+function isDzenWatchUrl(url) {
+    return DZEN_WATCH_PATTERN.test(url);
+}
+
+/**
+ * Attempts to extract a Dzen embed URL from pasted iframe HTML code.
+ * Strips query parameters from the extracted src to get a clean embed URL.
+ *
+ * @param {string} input Raw input that may contain an iframe tag.
+ * @returns {string|null} The clean embed URL, or null if not found.
+ */
+function extractDzenEmbedFromIframe(input) {
+    if (!input.includes('<iframe')) {
+        return null;
+    }
+
+    const match = input.match(DZEN_IFRAME_PATTERN);
+    if (!match) {
+        return null;
+    }
+
+    const srcWithParams = match[1];
+    const embedMatch = srcWithParams.match(DZEN_EMBED_PATTERN);
+    return embedMatch ? embedMatch[0] : null;
+}
+
+/**
+ * Returns the UTM link for the Dzen embed notice.
+ * Uses server-provided data from wp_localize_script, falls back gracefully.
+ *
+ * @returns {string} The notice URL with UTM parameters.
+ */
+function getDzenNoticeUrl() {
+    if (typeof window.rveBlockData !== 'undefined' && window.rveBlockData.dzenNoticeUrl) {
+        return window.rveBlockData.dzenNoticeUrl;
+    }
+    return 'https://wplovers.ru/dzen-wordpress/';
+}
+
+/**
  * Block editor component for the rus-video-embeds/video block.
  *
  * Renders a URL input placeholder when no URL is set, or a server-side
  * rendered preview when a valid URL is present. Provides InspectorControls
  * for aspect ratio and autoplay settings.
+ *
+ * Handles special Dzen cases:
+ * - Watch-URL input shows a warning Notice with instructions.
+ * - Pasted <iframe> code is parsed to extract embed URL.
  *
  * @param {Object}   props               Block props.
  * @param {Object}   props.attributes    Block attributes (url, aspectRatio, autoplay).
@@ -54,10 +114,38 @@ export default function Edit({ attributes, setAttributes }) {
     const blockProps = useBlockProps();
     const [inputUrl, setInputUrl] = useState(url);
     const [error, setError] = useState('');
+    const [dzenWatchWarning, setDzenWatchWarning] = useState(false);
+
+    /**
+     * Processes raw input: detects iframe paste, Dzen watch-URLs, or regular URLs.
+     *
+     * @param {string} rawInput The raw text from the input field.
+     */
+    const processInput = (rawInput) => {
+        setInputUrl(rawInput);
+        setDzenWatchWarning(false);
+        setError('');
+
+        const iframeEmbed = extractDzenEmbedFromIframe(rawInput);
+        if (iframeEmbed) {
+            setInputUrl(iframeEmbed);
+            setAttributes({ url: iframeEmbed });
+            return;
+        }
+
+        if (isDzenWatchUrl(rawInput)) {
+            setDzenWatchWarning(true);
+            return;
+        }
+    };
 
     const handleSubmit = () => {
         if (!inputUrl.trim()) {
             setError(__('Введите URL видео', 'rus-video-embeds'));
+            return;
+        }
+
+        if (dzenWatchWarning) {
             return;
         }
 
@@ -111,7 +199,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <TextControl
                         placeholder="https://..."
                         value={inputUrl}
-                        onChange={setInputUrl}
+                        onChange={processInput}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                                 e.preventDefault();
@@ -119,6 +207,25 @@ export default function Edit({ attributes, setAttributes }) {
                             }
                         }}
                     />
+                    {dzenWatchWarning && (
+                        <Notice status="warning" isDismissible={false}>
+                            <p>
+                                {__(
+                                    'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.',
+                                    'rus-video-embeds'
+                                )}
+                            </p>
+                            <p>
+                                <a
+                                    href={getDzenNoticeUrl()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {__('Узнать подробнее', 'rus-video-embeds')} →
+                                </a>
+                            </p>
+                        </Notice>
+                    )}
                     {error && (
                         <p style={{ color: '#cc1818', marginTop: '8px' }}>
                             {error}
@@ -158,6 +265,22 @@ export default function Edit({ attributes, setAttributes }) {
                     <TextControl
                         value={url}
                         onChange={(value) => {
+                            const iframeEmbed = extractDzenEmbedFromIframe(value);
+                            if (iframeEmbed) {
+                                setInputUrl(iframeEmbed);
+                                setAttributes({ url: iframeEmbed });
+                                setError('');
+                                setDzenWatchWarning(false);
+                                return;
+                            }
+
+                            if (isDzenWatchUrl(value)) {
+                                setDzenWatchWarning(true);
+                                setError('');
+                                return;
+                            }
+
+                            setDzenWatchWarning(false);
                             setInputUrl(value);
                             if (isValidProviderUrl(value)) {
                                 setAttributes({ url: value });
@@ -173,6 +296,25 @@ export default function Edit({ attributes, setAttributes }) {
                         }}
                         help={error || undefined}
                     />
+                    {dzenWatchWarning && (
+                        <Notice status="warning" isDismissible={false}>
+                            <p>
+                                {__(
+                                    'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.',
+                                    'rus-video-embeds'
+                                )}
+                            </p>
+                            <p>
+                                <a
+                                    href={getDzenNoticeUrl()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {__('Узнать подробнее', 'rus-video-embeds')} →
+                                </a>
+                            </p>
+                        </Notice>
+                    )}
                 </>
             )}
         </div>

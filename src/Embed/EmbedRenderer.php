@@ -85,6 +85,51 @@ class EmbedRenderer
     }
 
     /**
+     * Renders an informational notice block (e.g. when a watch-URL is used instead of embed-URL).
+     *
+     * Used across all embed contexts (oEmbed, shortcode, Gutenberg server-side render)
+     * to display a user-friendly message with an optional link.
+     *
+     * @param string $message  The notice message text.
+     * @param string $linkUrl  The URL for the call-to-action link.
+     * @param string $linkText The visible text for the link.
+     * @return string HTML string with the notice markup.
+     */
+    public static function renderNotice(string $message, string $linkUrl, string $linkText): string
+    {
+        $safeUrl  = esc_url($linkUrl);
+        $safeText = esc_html($linkText);
+        $safeMsg  = esc_html($message);
+
+        self::$hasEmbed = true;
+
+        return '<div class="rve-notice">'
+            . '<span class="rve-notice__icon" aria-hidden="true">&#8505;&#65039;</span>'
+            . '<div class="rve-notice__content">'
+            . '<p class="rve-notice__message">' . $safeMsg . '</p>'
+            . '<a class="rve-notice__link" href="' . $safeUrl . '" target="_blank" rel="noopener noreferrer">'
+            . $safeText . ' &rarr;</a>'
+            . '</div>'
+            . '</div>';
+    }
+
+    /**
+     * Builds the UTM link to the Dzen embed instruction page.
+     *
+     * @return string Full URL with utm_source (site domain) and utm_content parameters.
+     */
+    public static function getDzenNoticeUrl(): string
+    {
+        $domain = wp_parse_url(home_url(), PHP_URL_HOST) ?: 'unknown';
+
+        return 'https://wplovers.ru/dzen-wordpress/?'
+            . http_build_query([
+                'utm_source'  => $domain,
+                'utm_content' => 'dzen_embed',
+            ]);
+    }
+
+    /**
      * Tracks whether any embed was rendered during the current request.
      *
      * @var bool

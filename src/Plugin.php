@@ -36,6 +36,7 @@ class Plugin
 
         add_action('wp_enqueue_scripts', [self::class, 'enqueueStyles']);
         add_action('wp_footer', [self::class, 'maybeEnqueueStyles']);
+        add_action('enqueue_block_editor_assets', [self::class, 'localizeBlockEditorData']);
     }
 
     /**
@@ -82,5 +83,20 @@ class Plugin
         if (EmbedRenderer::hasEmbed()) {
             wp_enqueue_style('rve-embed-styles');
         }
+    }
+
+    /**
+     * Passes site domain and UTM link to the block editor JS for Dzen notice rendering.
+     *
+     * @return void
+     */
+    public static function localizeBlockEditorData(): void
+    {
+        $handle = 'rus-video-embeds-video-editor-script';
+
+        wp_localize_script($handle, 'rveBlockData', [
+            'siteDomain'    => wp_parse_url(home_url(), PHP_URL_HOST) ?: '',
+            'dzenNoticeUrl' => EmbedRenderer::getDzenNoticeUrl(),
+        ]);
     }
 }

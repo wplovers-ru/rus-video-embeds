@@ -16,6 +16,8 @@ use RusVideoEmbeds\Providers\VideoProviderInterface;
  */
 class OEmbedHandler
 {
+    private const DZEN_NOTICE_MESSAGE = 'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.';
+
     /**
      * Registers embed handlers for all enabled providers.
      *
@@ -44,6 +46,9 @@ class OEmbedHandler
     /**
      * Creates a closure that serves as the embed handler callback.
      *
+     * For providers that support isWatchUrl() (Dzen), returns an informational
+     * notice instead of an empty string when the URL cannot be embedded.
+     *
      * @param VideoProviderInterface $provider The provider to generate embed HTML for.
      * @return callable Callback compatible with wp_embed_register_handler.
      */
@@ -59,6 +64,14 @@ class OEmbedHandler
         return static function (array $matches, array $attr, string $url, array $rawattr) use ($provider): string {
             $embedUrl = $provider->getEmbedUrl($url);
             if ($embedUrl === null) {
+                if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
+                    return EmbedRenderer::renderNotice(
+                        self::DZEN_NOTICE_MESSAGE,
+                        EmbedRenderer::getDzenNoticeUrl(),
+                        'Узнать подробнее'
+                    );
+                }
+
                 return '';
             }
 

@@ -15,6 +15,8 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
  */
 class ShortcodeHandler
 {
+    private const DZEN_NOTICE_MESSAGE = 'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.';
+
     /**
      * Registers shortcodes for all enabled providers.
      *
@@ -36,8 +38,8 @@ class ShortcodeHandler
      * Handles any of the registered video shortcodes.
      *
      * Validates the URL against the matching provider, then delegates
-     * rendering to EmbedRenderer. Returns empty string if URL is invalid
-     * or doesn't match any enabled provider.
+     * rendering to EmbedRenderer. For Dzen watch-URLs, returns an
+     * informational notice instead of an empty string.
      *
      * @param array|string $atts    Shortcode attributes.
      * @param string|null  $content Shortcode content (unused).
@@ -71,6 +73,14 @@ class ShortcodeHandler
 
         $embedUrl = $provider->getEmbedUrl($url);
         if ($embedUrl === null) {
+            if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
+                return EmbedRenderer::renderNotice(
+                    self::DZEN_NOTICE_MESSAGE,
+                    EmbedRenderer::getDzenNoticeUrl(),
+                    'Узнать подробнее'
+                );
+            }
+
             return '';
         }
 

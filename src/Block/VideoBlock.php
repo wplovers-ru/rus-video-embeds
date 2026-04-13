@@ -15,6 +15,8 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
  */
 class VideoBlock
 {
+    private const DZEN_NOTICE_MESSAGE = 'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.';
+
     /**
      * Registers the block type using block.json metadata.
      *
@@ -34,7 +36,8 @@ class VideoBlock
      * Server-side render callback for the video block.
      *
      * Validates the URL against registered providers and delegates
-     * HTML generation to EmbedRenderer.
+     * HTML generation to EmbedRenderer. For Dzen watch-URLs, renders
+     * an informational notice instead of an empty string.
      *
      * @param array $attributes {
      *     Block attributes saved in the editor.
@@ -63,6 +66,14 @@ class VideoBlock
 
         $embedUrl = $provider->getEmbedUrl($url);
         if ($embedUrl === null) {
+            if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
+                return EmbedRenderer::renderNotice(
+                    self::DZEN_NOTICE_MESSAGE,
+                    EmbedRenderer::getDzenNoticeUrl(),
+                    'Узнать подробнее'
+                );
+            }
+
             return '';
         }
 
