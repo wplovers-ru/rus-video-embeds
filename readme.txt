@@ -3,7 +3,7 @@ Contributors: wplovers, donatory
 Tags: video, embed, vkvideo, rutube, dzen
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -84,6 +84,10 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 4. Frontend — responsive video embed on the site
 
 == Changelog ==
+= 1.1.1 =
+* Fixed global constant prefixes for WordPress.org Plugin Check compliance
+* Added ABSPATH guards, LICENSE, uninstall.php
+* Translated all strings to English for WordPress.org; Russian available via translate.wordpress.org
 
 = 1.1.0 =
 * Dzen: informative notice with instructions when a watch-URL is pasted instead of a broken iframe
@@ -100,10 +104,15 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 * Initial release
 * VK Video, Rutube, Dzen support
 * oEmbed, shortcodes, Gutenberg block
+= 1.1.1 =
 * Settings page
 * Responsive iframe
 
 == Upgrade Notice ==
+
+
+= 1.1.1 =
+Fixed constant prefixes for Plugin Check compliance, translated to English, added required WordPress.org files.
 
 = 1.1.0 =
 Adds Dzen embed-URL support, helpful notices for watch-URLs, configurable vertical margins, and editor fixes.
