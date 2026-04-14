@@ -1,8 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace RusVideoEmbeds\Providers;
+
+defined('ABSPATH') || exit;
 
 /**
  * Contract for video hosting providers.

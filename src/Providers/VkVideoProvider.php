@@ -1,8 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace RusVideoEmbeds\Providers;
+
+defined('ABSPATH') || exit;
 
 /**
  * Provider for VK Video (vk.com/video*, vk.com/clip*, vkvideo.ru/*).

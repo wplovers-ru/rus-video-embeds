@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-14T14:24:06+00:00\n"
+"POT-Creation-Date: 2026-04-14T14:44:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: rus-video-embeds\n"
@@ -39,65 +39,65 @@ msgstr ""
 msgid "https://wplovers.ru/"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:41
+#: src/Admin/SettingsPage.php:42
 msgid "RUS Video Embeds — Settings"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:42
+#: src/Admin/SettingsPage.php:43
 msgid "RUS Video Embeds"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:68
+#: src/Admin/SettingsPage.php:69
 msgid "General Settings"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:75
+#: src/Admin/SettingsPage.php:76
 msgid "Default Width (px)"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:84
+#: src/Admin/SettingsPage.php:85
 msgid "Default Height (px)"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:93
+#: src/Admin/SettingsPage.php:94
 msgid "Default Autoplay"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:102
+#: src/Admin/SettingsPage.php:103
 msgid "Enabled Providers"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:110
+#: src/Admin/SettingsPage.php:111
 msgid "Default Vertical Margin"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:239
+#: src/Admin/SettingsPage.php:240
 msgid "Applies to new blocks. Existing blocks will keep their settings."
 msgstr ""
 
-#: src/Admin/SettingsPage.php:251
+#: src/Admin/SettingsPage.php:252
 msgid "No margin"
 msgstr ""
 
-#: src/Block/VideoBlock.php:62
+#: src/Block/VideoBlock.php:63
 #: blocks/video/build/index.js:1
 #: blocks/video/src/edit.js:189
 #: blocks/video/src/edit.js:325
 msgid "Unrecognized URL. Supported: VK Video, Rutube, Dzen"
 msgstr ""
 
-#: src/Block/VideoBlock.php:70
-#: src/Embed/OEmbedHandler.php:68
-#: src/Embed/ShortcodeHandler.php:77
+#: src/Block/VideoBlock.php:71
+#: src/Embed/OEmbedHandler.php:69
+#: src/Embed/ShortcodeHandler.php:78
 #: blocks/video/build/index.js:1
 #: blocks/video/src/edit.js:248
 #: blocks/video/src/edit.js:337
 msgid "Dzen uses separate links for embedding. Click \"Share\" → \"Embed\" under the video and copy the link from the iframe code."
 msgstr ""
 
-#: src/Block/VideoBlock.php:72
-#: src/Embed/OEmbedHandler.php:70
-#: src/Embed/ShortcodeHandler.php:79
+#: src/Block/VideoBlock.php:73
+#: src/Embed/OEmbedHandler.php:71
+#: src/Embed/ShortcodeHandler.php:80
 #: blocks/video/build/index.js:1
 #: blocks/video/src/edit.js:259
 #: blocks/video/src/edit.js:348

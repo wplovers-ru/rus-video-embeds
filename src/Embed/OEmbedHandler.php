@@ -1,8 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace RusVideoEmbeds\Embed;
+
+defined('ABSPATH') || exit;
 
 use RusVideoEmbeds\Providers\ProviderRegistry;
 use RusVideoEmbeds\Providers\VideoProviderInterface;

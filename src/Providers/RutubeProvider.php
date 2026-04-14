@@ -1,8 +1,9 @@
 <?php
-
 declare(strict_types=1);
 
 namespace RusVideoEmbeds\Providers;
+
+defined('ABSPATH') || exit;
 
 /**
  * Provider for Rutube (rutube.ru/video/*, rutube.ru/play/embed/*).

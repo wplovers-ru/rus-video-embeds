@@ -6,8 +6,6 @@
 /node_modules
 /openspec
 /blocks/video/src
-/composer.json
-/composer.lock
 /package.json
 /package-lock.json
 /languages/.gitkeep
