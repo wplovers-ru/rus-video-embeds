@@ -30,5 +30,6 @@
             "default": false
         }
     },
-    "editorScript": "file:./build/index.js"
+    "editorScript": "file:./build/index.js",
+    "editorStyle": "rve-embed-editor-styles"
 }

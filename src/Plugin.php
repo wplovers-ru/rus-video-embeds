@@ -37,15 +37,26 @@ class Plugin
         add_action('wp_enqueue_scripts', [self::class, 'enqueueStyles']);
         add_action('wp_footer', [self::class, 'maybeEnqueueStyles']);
         add_action('enqueue_block_editor_assets', [self::class, 'localizeBlockEditorData']);
+        add_action('admin_enqueue_scripts', [self::class, 'enqueueEditorStyles']);
     }
 
     /**
      * Runs on the `init` hook: initialises providers, oEmbed, shortcodes, block.
      *
+     * Registers the editor stylesheet before the block so block.json
+     * can reference it by handle via editorStyle.
+     *
      * @return void
      */
     public static function onInit(): void
     {
+        wp_register_style(
+            'rve-embed-editor-styles',
+            RVE_PLUGIN_URL . 'assets/css/embed-editor.css',
+            [],
+            RVE_VERSION
+        );
+
         ProviderRegistry::getInstance();
 
         OEmbedHandler::register();
@@ -83,6 +94,29 @@ class Plugin
         if (EmbedRenderer::hasEmbed()) {
             wp_enqueue_style('rve-embed-styles');
         }
+    }
+
+    /**
+     * Enqueues embed styles on post editing screens for Classic Editor compatibility.
+     *
+     * Ensures oEmbed previews inside TinyMCE render without scrollbars.
+     * Only loads on post.php and post-new.php screens.
+     *
+     * @param string $hookSuffix The current admin page hook suffix.
+     * @return void
+     */
+    public static function enqueueEditorStyles(string $hookSuffix): void
+    {
+        if ($hookSuffix !== 'post.php' && $hookSuffix !== 'post-new.php') {
+            return;
+        }
+
+        wp_enqueue_style(
+            'rve-embed-styles',
+            RVE_PLUGIN_URL . 'assets/css/embed-styles.css',
+            [],
+            RVE_VERSION
+        );
     }
 
     /**
