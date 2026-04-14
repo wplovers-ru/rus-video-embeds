@@ -1,0 +1,36 @@
+name: Build WordPress Plugin ZIP
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-release-zip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare clean plugin directory
+        run: |
+          set -euo pipefail
+          mkdir -p dist/rus-video-embeds
+          rsync -av --delete --exclude-from=".distignore" ./ dist/rus-video-embeds/
+
+      - name: Create plugin ZIP
+        run: |
+          set -euo pipefail
+          cd dist
+          zip -r ../rus-video-embeds.zip rus-video-embeds
+
+      - name: Create GitHub Release and upload ZIP
+        uses: softprops/action-gh-release@v2
+        with:
+          files: rus-video-embeds.zip
+          generate_release_notes: true
