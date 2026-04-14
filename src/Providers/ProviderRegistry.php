@@ -9,7 +9,7 @@ defined('ABSPATH') || exit;
  * Registry of video providers.
  *
  * Holds all registered VideoProviderInterface implementations and provides
- * lookup by URL. Extensible via the `rve_register_providers` WordPress filter.
+ * lookup by URL. Extensible via the `rus_video_embeds_register_providers` WordPress filter.
  */
 class ProviderRegistry
 {
@@ -23,7 +23,7 @@ class ProviderRegistry
      * Returns the singleton registry instance, initialised with default providers.
      *
      * Default providers (VK, Rutube, Dzen) are registered on first call,
-     * then the `rve_register_providers` filter is applied so third-party
+     * then the `rus_video_embeds_register_providers` filter is applied so third-party
      * code can add or remove providers.
      *
      * @return self
@@ -50,7 +50,7 @@ class ProviderRegistry
         $this->register(new DzenProvider());
 
         /** @var VideoProviderInterface[] $providers */
-        $this->providers = apply_filters('rve_register_providers', $this->providers);
+        $this->providers = apply_filters('rus_video_embeds_register_providers', $this->providers);
     }
 
     /**

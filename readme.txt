@@ -29,7 +29,7 @@ RUS Video Embeds adds support for Russian video hosting platforms in WordPress:
 * Configurable vertical margins via Gutenberg spacing presets
 * Settings page: default dimensions, autoplay, margins, enable/disable providers
 * Security: sandboxed iframe, lazy loading, URL validation
-* Extensible: add your own providers via the `rve_register_providers` filter
+* Extensible: add your own providers via the `rus_video_embeds_register_providers` filter
 
 == Installation ==
 
@@ -66,7 +66,7 @@ Detailed instructions with screenshots: [How to embed Dzen video in WordPress](h
 
 = Which video platforms are supported? =
 
-VK Video, Rutube, and Dzen. You can add your own via the `rve_register_providers` filter.
+VK Video, Rutube, and Dzen. You can add your own via the `rus_video_embeds_register_providers` filter.
 
 = Do private videos work? =
 
