@@ -176,7 +176,7 @@ export default function Edit({ attributes, setAttributes }) {
 
     const handleSubmit = () => {
         if (!inputUrl.trim()) {
-            setError(__('Введите URL видео', 'rus-video-embeds'));
+            setError(__('Enter a video URL', 'rus-video-embeds'));
             return;
         }
 
@@ -187,7 +187,7 @@ export default function Edit({ attributes, setAttributes }) {
         if (!isValidProviderUrl(inputUrl)) {
             setError(
                 __(
-                    'URL не распознан. Поддерживаются: VK Видео, Rutube, Дзен',
+                    'Unrecognized URL. Supported: VK Video, Rutube, Dzen',
                     'rus-video-embeds'
                 )
             );
@@ -202,10 +202,10 @@ export default function Edit({ attributes, setAttributes }) {
         <div {...blockProps}>
             <InspectorControls>
                 <PanelBody
-                    title={__('Настройки видео', 'rus-video-embeds')}
+                    title={__('Video Settings', 'rus-video-embeds')}
                 >
                     <SelectControl
-                        label={__('Соотношение сторон', 'rus-video-embeds')}
+                        label={__('Aspect Ratio', 'rus-video-embeds')}
                         value={aspectRatio}
                         options={ASPECT_RATIOS}
                         onChange={(value) =>
@@ -213,7 +213,7 @@ export default function Edit({ attributes, setAttributes }) {
                         }
                     />
                     <ToggleControl
-                        label={__('Автоплей', 'rus-video-embeds')}
+                        label={__('Autoplay', 'rus-video-embeds')}
                         checked={autoplay}
                         onChange={(value) =>
                             setAttributes({ autoplay: value })
@@ -225,9 +225,9 @@ export default function Edit({ attributes, setAttributes }) {
             {!url ? (
                 <Placeholder
                     icon="video-alt3"
-                    label={__('Видео RU', 'rus-video-embeds')}
+                    label={__('RU Video', 'rus-video-embeds')}
                     instructions={__(
-                        'Вставьте ссылку на видео с VK, Rutube или Дзен',
+                        'Paste a video link from VK, Rutube, or Dzen',
                         'rus-video-embeds'
                     )}
                 >
@@ -246,7 +246,7 @@ export default function Edit({ attributes, setAttributes }) {
                         <Notice status="warning" isDismissible={false}>
                             <p>
                                 {__(
-                                    'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.',
+                                    'Dzen uses separate links for embedding. Click "Share" → "Embed" under the video and copy the link from the iframe code.',
                                     'rus-video-embeds'
                                 )}
                             </p>
@@ -256,7 +256,7 @@ export default function Edit({ attributes, setAttributes }) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    {__('Узнать подробнее', 'rus-video-embeds')} →
+                                    {__('Learn more', 'rus-video-embeds')} →
                                 </a>
                             </p>
                         </Notice>
@@ -271,7 +271,7 @@ export default function Edit({ attributes, setAttributes }) {
                         className="components-button is-primary"
                         onClick={handleSubmit}
                     >
-                        {__('Встроить', 'rus-video-embeds')}
+                        {__('Embed', 'rus-video-embeds')}
                     </button>
                 </Placeholder>
             ) : (
@@ -282,7 +282,7 @@ export default function Edit({ attributes, setAttributes }) {
                         LoadingResponsePlaceholder={() => (
                             <Placeholder
                                 icon="video-alt3"
-                                label={__('Загрузка…', 'rus-video-embeds')}
+                                label={__('Loading…', 'rus-video-embeds')}
                             >
                                 <Spinner />
                             </Placeholder>
@@ -323,7 +323,7 @@ export default function Edit({ attributes, setAttributes }) {
                             } else if (value) {
                                 setError(
                                     __(
-                                        'URL не распознан. Поддерживаются: VK Видео, Rutube, Дзен',
+                                        'Unrecognized URL. Supported: VK Video, Rutube, Dzen',
                                         'rus-video-embeds'
                                     )
                                 );
@@ -335,7 +335,7 @@ export default function Edit({ attributes, setAttributes }) {
                         <Notice status="warning" isDismissible={false}>
                             <p>
                                 {__(
-                                    'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.',
+                                    'Dzen uses separate links for embedding. Click "Share" → "Embed" under the video and copy the link from the iframe code.',
                                     'rus-video-embeds'
                                 )}
                             </p>
@@ -345,7 +345,7 @@ export default function Edit({ attributes, setAttributes }) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    {__('Узнать подробнее', 'rus-video-embeds')} →
+                                    {__('Learn more', 'rus-video-embeds')} →
                                 </a>
                             </p>
                         </Notice>

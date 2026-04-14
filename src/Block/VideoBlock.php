@@ -15,7 +15,6 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
  */
 class VideoBlock
 {
-    private const DZEN_NOTICE_MESSAGE = 'Дзен использует отдельные ссылки для встраивания. Нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe.';
 
     /**
      * Registers the block type using block.json metadata.
@@ -60,7 +59,7 @@ class VideoBlock
 
         if ($provider === null) {
             return '<p class="rve-error">'
-                . esc_html__('URL не распознан. Поддерживаются: VK Видео, Rutube, Дзен', 'rus-video-embeds')
+                . esc_html__('Unrecognized URL. Supported: VK Video, Rutube, Dzen', 'rus-video-embeds')
                 . '</p>';
         }
 
@@ -68,9 +67,9 @@ class VideoBlock
         if ($embedUrl === null) {
             if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
                 return EmbedRenderer::renderNotice(
-                    self::DZEN_NOTICE_MESSAGE,
+                    __('Dzen uses separate links for embedding. Click "Share" → "Embed" under the video and copy the link from the iframe code.', 'rus-video-embeds'),
                     EmbedRenderer::getDzenNoticeUrl(),
-                    'Узнать подробнее'
+                    __('Learn more', 'rus-video-embeds')
                 );
             }
 

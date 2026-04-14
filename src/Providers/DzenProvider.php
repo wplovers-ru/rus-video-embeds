@@ -86,7 +86,7 @@ class DzenProvider implements VideoProviderInterface
      */
     public function getName(): string
     {
-        return 'Дзен';
+        return 'Dzen';
     }
 
     /**

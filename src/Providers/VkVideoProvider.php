@@ -67,7 +67,7 @@ class VkVideoProvider implements VideoProviderInterface
      */
     public function getName(): string
     {
-        return 'VK Видео';
+        return 'VK Video';
     }
 
     /**

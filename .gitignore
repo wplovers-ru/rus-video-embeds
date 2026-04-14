@@ -4,3 +4,5 @@ node_modules/
 vendor/
 .DS_Store
 composer.phar
+readme-ru.txt
+wp-assets/

@@ -50,6 +50,12 @@ class Plugin
      */
     public static function onInit(): void
     {
+        load_plugin_textdomain(
+            'rus-video-embeds',
+            false,
+            dirname(plugin_basename(RVE_PLUGIN_FILE)) . '/languages'
+        );
+
         wp_register_style(
             'rve-embed-editor-styles',
             RVE_PLUGIN_URL . 'assets/css/embed-editor.css',

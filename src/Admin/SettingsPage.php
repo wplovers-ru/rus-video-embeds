@@ -38,7 +38,7 @@ class SettingsPage
     public static function addMenuPage(): void
     {
         add_options_page(
-            __('RUS Video Embeds — Настройки', 'rus-video-embeds'),
+            __('RUS Video Embeds — Settings', 'rus-video-embeds'),
             __('RUS Video Embeds', 'rus-video-embeds'),
             'manage_options',
             self::PAGE_SLUG,
@@ -65,14 +65,14 @@ class SettingsPage
 
         add_settings_section(
             'rve_general',
-            __('Основные настройки', 'rus-video-embeds'),
+            __('General Settings', 'rus-video-embeds'),
             '__return_false',
             self::PAGE_SLUG
         );
 
         add_settings_field(
             'default_width',
-            __('Ширина по умолчанию (px)', 'rus-video-embeds'),
+            __('Default Width (px)', 'rus-video-embeds'),
             [self::class, 'renderNumberField'],
             self::PAGE_SLUG,
             'rve_general',
@@ -81,7 +81,7 @@ class SettingsPage
 
         add_settings_field(
             'default_height',
-            __('Высота по умолчанию (px)', 'rus-video-embeds'),
+            __('Default Height (px)', 'rus-video-embeds'),
             [self::class, 'renderNumberField'],
             self::PAGE_SLUG,
             'rve_general',
@@ -90,7 +90,7 @@ class SettingsPage
 
         add_settings_field(
             'default_autoplay',
-            __('Автоплей по умолчанию', 'rus-video-embeds'),
+            __('Default Autoplay', 'rus-video-embeds'),
             [self::class, 'renderCheckboxField'],
             self::PAGE_SLUG,
             'rve_general',
@@ -99,7 +99,7 @@ class SettingsPage
 
         add_settings_field(
             'enabled_providers',
-            __('Включённые провайдеры', 'rus-video-embeds'),
+            __('Enabled Providers', 'rus-video-embeds'),
             [self::class, 'renderProvidersField'],
             self::PAGE_SLUG,
             'rve_general'
@@ -107,7 +107,7 @@ class SettingsPage
 
         add_settings_field(
             'default_vertical_margin',
-            __('Отступ сверху/снизу по умолчанию', 'rus-video-embeds'),
+            __('Default Vertical Margin', 'rus-video-embeds'),
             [self::class, 'renderMarginField'],
             self::PAGE_SLUG,
             'rve_general'
@@ -236,7 +236,7 @@ class SettingsPage
 
         echo '</select>';
         echo '<p class="description">'
-            . esc_html__('Применяется к новым блокам. Существующие блоки сохранят свои настройки.', 'rus-video-embeds')
+            . esc_html__('Applies to new blocks. Existing blocks will keep their settings.', 'rus-video-embeds')
             . '</p>';
     }
 
@@ -248,7 +248,7 @@ class SettingsPage
     private static function getSpacingPresets(): array
     {
         return [
-            ''   => __('Нет отступа', 'rus-video-embeds'),
+            ''   => __('No margin', 'rus-video-embeds'),
             '20' => '20 (XS)',
             '30' => '30 (S)',
             '40' => '40 (M)',
