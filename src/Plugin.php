@@ -53,9 +53,9 @@ class Plugin
     {
         wp_register_style(
             'rve-embed-editor-styles',
-            RVE_PLUGIN_URL . 'assets/css/embed-editor.css',
+            RUS_VIDEO_EMBEDS_URL . 'assets/css/embed-editor.css',
             [],
-            RVE_VERSION
+            RUS_VIDEO_EMBEDS_VERSION
         );
 
         ProviderRegistry::getInstance();
@@ -77,9 +77,9 @@ class Plugin
     {
         wp_register_style(
             'rve-embed-styles',
-            RVE_PLUGIN_URL . 'assets/css/embed-styles.css',
+            RUS_VIDEO_EMBEDS_URL . 'assets/css/embed-styles.css',
             [],
-            RVE_VERSION
+            RUS_VIDEO_EMBEDS_VERSION
         );
     }
 
@@ -114,9 +114,9 @@ class Plugin
 
         wp_enqueue_style(
             'rve-embed-styles',
-            RVE_PLUGIN_URL . 'assets/css/embed-styles.css',
+            RUS_VIDEO_EMBEDS_URL . 'assets/css/embed-styles.css',
             [],
-            RVE_VERSION
+            RUS_VIDEO_EMBEDS_VERSION
         );
     }
 

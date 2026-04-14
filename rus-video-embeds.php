@@ -18,13 +18,13 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('RVE_VERSION', '1.1.0');
-define('RVE_PLUGIN_FILE', __FILE__);
-define('RVE_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('RVE_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('RUS_VIDEO_EMBEDS_VERSION', '1.1.0');
+define('RUS_VIDEO_EMBEDS_FILE', __FILE__);
+define('RUS_VIDEO_EMBEDS_DIR', plugin_dir_path(__FILE__));
+define('RUS_VIDEO_EMBEDS_URL', plugin_dir_url(__FILE__));
 
-if (file_exists(RVE_PLUGIN_DIR . 'vendor/autoload.php')) {
-    require_once RVE_PLUGIN_DIR . 'vendor/autoload.php';
+if (file_exists(RUS_VIDEO_EMBEDS_DIR . 'vendor/autoload.php')) {
+    require_once RUS_VIDEO_EMBEDS_DIR . 'vendor/autoload.php';
 }
 
 \RusVideoEmbeds\Plugin::init();

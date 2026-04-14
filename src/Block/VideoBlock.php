@@ -25,7 +25,7 @@ class VideoBlock
     public static function register(): void
     {
         register_block_type(
-            RVE_PLUGIN_DIR . 'blocks/video',
+            RUS_VIDEO_EMBEDS_DIR . 'blocks/video',
             [
                 'render_callback' => [self::class, 'render'],
             ]
