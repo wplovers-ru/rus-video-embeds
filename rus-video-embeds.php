@@ -23,9 +23,8 @@ define('RVE_PLUGIN_FILE', __FILE__);
 define('RVE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('RVE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-$rus_video_embeds_autoload = RVE_PLUGIN_DIR . 'vendor/autoload.php';
-if (file_exists($rus_video_embeds_autoload)) {
-    require_once $rus_video_embeds_autoload;
+if (file_exists(RVE_PLUGIN_DIR . 'vendor/autoload.php')) {
+    require_once RVE_PLUGIN_DIR . 'vendor/autoload.php';
 }
 
 \RusVideoEmbeds\Plugin::init();

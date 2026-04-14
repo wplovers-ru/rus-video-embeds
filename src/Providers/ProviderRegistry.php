@@ -50,6 +50,7 @@ class ProviderRegistry
         $this->register(new DzenProvider());
 
         /** @var VideoProviderInterface[] $providers */
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- prefix matches plugin slug
         $this->providers = apply_filters('rus_video_embeds_register_providers', $this->providers);
     }
 
