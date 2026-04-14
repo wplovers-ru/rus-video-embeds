@@ -1,9 +1,9 @@
-=== RUS Video Embeds ===
-Contributors: rusvideoembeds
+=== RUS Video Embeds - insert VK video, Rutube, Dzen ===
+Contributors: wplovers, donatory
 Tags: video, embed, vk, rutube, dzen, russian, oembed, gutenberg
 Requires at least: 5.8
-Tested up to: 6.7
-Stable tag: 1.0.0
+Tested up to: 6.8
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -16,7 +16,9 @@ RUS Video Embeds добавляет поддержку российских ви
 
 * **VK Видео** — vk.com/video*, vkvideo.ru/*
 * **Rutube** — rutube.ru/video/*
-* **Дзен** — dzen.ru/video/watch/*, zen.yandex.ru/*
+* **Дзен** — dzen.ru/embed/* (embed-ссылки)
+
+**⚠️ Особенность Дзен:** обычные ссылки на видео (`dzen.ru/video/watch/...`) **не работают** для встраивания — Дзен использует отдельные embed-ссылки. При вставке watch-ссылки плагин покажет инструкцию, как получить правильную ссылку. Подробнее: [Как вставить видео с Дзен в WordPress](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
 
 **Возможности:**
 
@@ -24,7 +26,8 @@ RUS Video Embeds добавляет поддержку российских ви
 * Шорткоды `[vk_video]`, `[rutube]`, `[dzen]` для классического редактора
 * Gutenberg-блок «Видео RU» с превью и настройками
 * Адаптивный responsive iframe (16:9 по умолчанию)
-* Страница настроек: размеры по умолчанию, автоплей, включение/отключение провайдеров
+* Настраиваемые вертикальные отступы (margin) через Gutenberg spacing presets
+* Страница настроек: размеры по умолчанию, автоплей, отступы, включение/отключение провайдеров
 * Безопасность: sandbox iframe, lazy loading, валидация URL
 * Расширяемость: добавляйте свои провайдеры через фильтр `rve_register_providers`
 
@@ -32,7 +35,7 @@ RUS Video Embeds добавляет поддержку российских ви
 
 1. Загрузите папку `rus-video-embeds` в `/wp-content/plugins/`
 2. Активируйте плагин через меню «Плагины» в WordPress
-3. Настройте плагин в «Настройки» → «Видео RU Embed»
+3. Настройте плагин в «Настройки» → «RUS Video Embeds»
 
 == Usage ==
 
@@ -43,10 +46,21 @@ RUS Video Embeds добавляет поддержку российских ви
 **Шорткоды:**
 `[vk_video url="https://vk.com/video-123456_789012"]`
 `[rutube url="https://rutube.ru/video/abc123/" width="800" height="450"]`
-`[dzen url="https://dzen.ru/video/watch/abc123" autoplay="1"]`
+`[dzen url="https://dzen.ru/embed/abc123def456" autoplay="1"]`
 
 **Gutenberg:**
 Добавьте блок «Видео RU» и вставьте URL.
+
+**Дзен — как получить embed-ссылку:**
+
+1. Откройте видео на Дзен
+2. Нажмите «Поделиться» → «Встроить»
+3. Скопируйте ссылку из `src` в iframe-коде (формат: `https://dzen.ru/embed/...`)
+4. Вставьте эту ссылку в блок, шорткод или oEmbed
+
+Также в Gutenberg-блоке можно вставить весь код `<iframe>` — плагин автоматически извлечёт embed-URL.
+
+Подробная инструкция со скриншотами: [Как вставить видео с Дзен в WordPress](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
 
 == Frequently Asked Questions ==
 
@@ -58,7 +72,23 @@ VK Видео, Rutube и Дзен. Можно добавить свои чере
 
 Embed работает только для публичных видео. Приватные видео VK могут не отображаться.
 
+= Почему не работает ссылка на видео Дзен? =
+
+Дзен использует разные ссылки для просмотра и встраивания. Обычная ссылка `dzen.ru/video/watch/...` не работает для embed. Нужна специальная embed-ссылка формата `dzen.ru/embed/...`. Чтобы её получить, нажмите «Поделиться» → «Встроить» под видео и скопируйте ссылку из iframe-кода. [Подробная инструкция](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
+
 == Changelog ==
+
+= 1.1.0 =
+* Дзен: информативная заглушка при вставке watch-URL с инструкцией вместо нерабочего iframe
+* Дзен: полная поддержка embed-URL (`dzen.ru/embed/*`) во всех контекстах
+* Дзен: парсинг вставленного `<iframe>` кода в Gutenberg-блоке — автоматическое извлечение embed-URL
+* Исправлены скроллбары в Gutenberg и Classic Editor — inline-стили для self-contained рендеринга
+* Добавлен editor CSS для корректного отображения превью в редакторах
+* Настройка вертикальных отступов по умолчанию (Gutenberg spacing presets) в настройках плагина
+* Поддержка `spacing.margin` в Gutenberg-блоке с автоприменением дефолтного значения
+* Финальное исправление скроллбаров: inline-стили в EmbedRenderer, editorStyle в block.json
+* Обновлено название плагина и меню настроек
+* Обновлён readme.txt с инструкциями по Дзен и полным changelog
 
 = 1.0.0 =
 * Первый релиз

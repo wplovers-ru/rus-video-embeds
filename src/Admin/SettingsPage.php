@@ -9,7 +9,7 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
 /**
  * Admin settings page for the RUS Video Embeds plugin.
  *
- * Registers a settings page under Settings → Видео RU Embed
+ * Registers a settings page under Settings → RUS Video Embeds
  * with fields for default dimensions, autoplay, and enabled providers.
  * All fields are protected via Settings API nonces and sanitize callbacks.
  */
@@ -38,8 +38,8 @@ class SettingsPage
     public static function addMenuPage(): void
     {
         add_options_page(
-            __('Видео RU Embed — Настройки', 'rus-video-embeds'),
-            __('Видео RU Embed', 'rus-video-embeds'),
+            __('RUS Video Embeds — Настройки', 'rus-video-embeds'),
+            __('RUS Video Embeds', 'rus-video-embeds'),
             'manage_options',
             self::PAGE_SLUG,
             [self::class, 'renderPage']
