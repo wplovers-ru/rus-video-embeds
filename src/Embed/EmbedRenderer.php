@@ -20,10 +20,13 @@ class EmbedRenderer
      * @param array  $args {
      *     Optional rendering parameters.
      *
-     *     @type int    $width       Explicit width in pixels (0 = responsive).
-     *     @type int    $height      Explicit height in pixels (0 = responsive).
-     *     @type string $aspectRatio Aspect ratio string, e.g. "16:9", "4:3". Default "16:9".
-     *     @type bool   $autoplay    Whether to enable autoplay. Default false.
+     *     @type int    $width          Explicit width in pixels (0 = responsive).
+     *     @type int    $height         Explicit height in pixels (0 = responsive).
+     *     @type string $aspectRatio    Aspect ratio string, e.g. "16:9", "4:3". Default "16:9".
+     *     @type bool   $autoplay       Whether to enable autoplay. Default false.
+     *     @type string $verticalMargin Gutenberg spacing preset slug for top/bottom margin. Default from settings.
+     *     @type bool   $skipMargin     If true, skip applying vertical margin (used by Gutenberg blocks
+     *                                  where WP's block rendering pipeline handles spacing). Default false.
      * }
      * @return string Sanitised HTML string with the embed markup.
      */
@@ -31,10 +34,12 @@ class EmbedRenderer
     {
         $defaults = self::getDefaults();
 
-        $width       = (int) ($args['width'] ?? $defaults['width']);
-        $height      = (int) ($args['height'] ?? $defaults['height']);
-        $aspectRatio = $args['aspectRatio'] ?? $defaults['aspectRatio'];
-        $autoplay    = !empty($args['autoplay']);
+        $width          = (int) ($args['width'] ?? $defaults['width']);
+        $height         = (int) ($args['height'] ?? $defaults['height']);
+        $aspectRatio    = $args['aspectRatio'] ?? $defaults['aspectRatio'];
+        $autoplay       = !empty($args['autoplay']);
+        $skipMargin     = !empty($args['skipMargin']);
+        $verticalMargin = $args['verticalMargin'] ?? $defaults['verticalMargin'];
 
         if ($autoplay) {
             $separator = (strpos($embedUrl, '?') !== false) ? '&' : '?';
@@ -50,6 +55,10 @@ class EmbedRenderer
         $wrapperStyle = $ratioStyle;
         if ($width > 0) {
             $wrapperStyle .= "max-width:{$width}px;";
+        }
+        if (!$skipMargin && $verticalMargin !== '') {
+            $marginCss = 'var(--wp--preset--spacing--' . esc_attr($verticalMargin) . ')';
+            $wrapperStyle .= "margin-top:{$marginCss};margin-bottom:{$marginCss};";
         }
 
         $iframeAttrs = [
@@ -159,17 +168,18 @@ class EmbedRenderer
     /**
      * Returns default embed settings from the plugin options.
      *
-     * @return array{width: int, height: int, aspectRatio: string, autoplay: bool}
+     * @return array{width: int, height: int, aspectRatio: string, autoplay: bool, verticalMargin: string}
      */
     private static function getDefaults(): array
     {
         $options = get_option('rve_settings', []);
 
         return [
-            'width'       => (int) ($options['default_width'] ?? 0),
-            'height'      => (int) ($options['default_height'] ?? 0),
-            'aspectRatio' => '16:9',
-            'autoplay'    => !empty($options['default_autoplay']),
+            'width'          => (int) ($options['default_width'] ?? 0),
+            'height'         => (int) ($options['default_height'] ?? 0),
+            'aspectRatio'    => '16:9',
+            'autoplay'       => !empty($options['default_autoplay']),
+            'verticalMargin' => $options['default_vertical_margin'] ?? '',
         ];
     }
 

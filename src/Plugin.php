@@ -94,9 +94,12 @@ class Plugin
     {
         $handle = 'rus-video-embeds-video-editor-script';
 
+        $options = get_option('rve_settings', []);
+
         wp_localize_script($handle, 'rveBlockData', [
-            'siteDomain'    => wp_parse_url(home_url(), PHP_URL_HOST) ?: '',
-            'dzenNoticeUrl' => EmbedRenderer::getDzenNoticeUrl(),
+            'siteDomain'            => wp_parse_url(home_url(), PHP_URL_HOST) ?: '',
+            'dzenNoticeUrl'         => EmbedRenderer::getDzenNoticeUrl(),
+            'defaultVerticalMargin' => $options['default_vertical_margin'] ?? '',
         ]);
     }
 }

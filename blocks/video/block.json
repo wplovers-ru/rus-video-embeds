@@ -11,7 +11,10 @@
     "textdomain": "rus-video-embeds",
     "supports": {
         "html": false,
-        "align": ["wide", "full"]
+        "align": ["wide", "full"],
+        "spacing": {
+            "margin": ["top", "bottom"]
+        }
     },
     "attributes": {
         "url": {

@@ -104,6 +104,14 @@ class SettingsPage
             self::PAGE_SLUG,
             'rve_general'
         );
+
+        add_settings_field(
+            'default_vertical_margin',
+            __('Отступ сверху/снизу по умолчанию', 'rus-video-embeds'),
+            [self::class, 'renderMarginField'],
+            self::PAGE_SLUG,
+            'rve_general'
+        );
     }
 
     /**
@@ -198,6 +206,60 @@ class SettingsPage
     }
 
     /**
+     * Renders a select dropdown for the default vertical margin setting.
+     *
+     * Options correspond to Gutenberg spacing preset slugs
+     * (mapped to CSS variables --wp--preset--spacing--{slug}).
+     *
+     * @return void
+     */
+    public static function renderMarginField(): void
+    {
+        $options = get_option(self::OPTION_NAME, self::getDefaults());
+        $value   = $options['default_vertical_margin'] ?? '';
+
+        $presets = self::getSpacingPresets();
+
+        printf(
+            '<select name="%s[default_vertical_margin]">',
+            esc_attr(self::OPTION_NAME)
+        );
+
+        foreach ($presets as $slug => $label) {
+            printf(
+                '<option value="%s" %s>%s</option>',
+                esc_attr($slug),
+                selected($value, $slug, false),
+                esc_html($label)
+            );
+        }
+
+        echo '</select>';
+        echo '<p class="description">'
+            . esc_html__('Применяется к новым блокам. Существующие блоки сохранят свои настройки.', 'rus-video-embeds')
+            . '</p>';
+    }
+
+    /**
+     * Returns available Gutenberg spacing presets for the margin select field.
+     *
+     * @return array<string, string> Slug => human-readable label.
+     */
+    private static function getSpacingPresets(): array
+    {
+        return [
+            ''   => __('Нет отступа', 'rus-video-embeds'),
+            '20' => '20 (XS)',
+            '30' => '30 (S)',
+            '40' => '40 (M)',
+            '50' => '50 (L)',
+            '60' => '60 (XL)',
+            '70' => '70 (2XL)',
+            '80' => '80 (3XL)',
+        ];
+    }
+
+    /**
      * Sanitizes settings values before saving.
      *
      * Ensures numeric values are positive integers and enabled_providers
@@ -226,6 +288,12 @@ class SettingsPage
             ? array_values(array_intersect($input['enabled_providers'], $validSlugs))
             : $validSlugs;
 
+        $validMargins = ['', '20', '30', '40', '50', '60', '70', '80'];
+        $marginValue  = $input['default_vertical_margin'] ?? '';
+        $sanitized['default_vertical_margin'] = in_array($marginValue, $validMargins, true)
+            ? $marginValue
+            : $defaults['default_vertical_margin'];
+
         return $sanitized;
     }
 
@@ -237,10 +305,11 @@ class SettingsPage
     private static function getDefaults(): array
     {
         return [
-            'default_width'      => 800,
-            'default_height'     => 450,
-            'default_autoplay'   => false,
-            'enabled_providers'  => ['vk_video', 'rutube', 'dzen'],
+            'default_width'           => 800,
+            'default_height'          => 450,
+            'default_autoplay'        => false,
+            'enabled_providers'       => ['vk_video', 'rutube', 'dzen'],
+            'default_vertical_margin' => '',
         ];
     }
 }

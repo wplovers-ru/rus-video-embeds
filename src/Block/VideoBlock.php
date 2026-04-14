@@ -80,6 +80,7 @@ class VideoBlock
         return EmbedRenderer::render($embedUrl, [
             'aspectRatio' => $attributes['aspectRatio'] ?? '16:9',
             'autoplay'    => !empty($attributes['autoplay']),
+            'skipMargin'  => true,
         ]);
     }
 }

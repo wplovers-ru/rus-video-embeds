@@ -13,7 +13,7 @@ import {
     Notice,
 } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-import { useState } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 
 const ASPECT_RATIOS = [
     { label: '16:9', value: '16:9' },
@@ -115,6 +115,41 @@ export default function Edit({ attributes, setAttributes }) {
     const [inputUrl, setInputUrl] = useState(url);
     const [error, setError] = useState('');
     const [dzenWatchWarning, setDzenWatchWarning] = useState(false);
+    const didInitMargin = useRef(false);
+
+    useEffect(() => {
+        if (didInitMargin.current) {
+            return;
+        }
+        didInitMargin.current = true;
+
+        if (url) {
+            return;
+        }
+
+        const margin =
+            typeof window.rveBlockData !== 'undefined'
+                ? window.rveBlockData.defaultVerticalMargin
+                : '';
+
+        if (!margin) {
+            return;
+        }
+
+        const presetValue = `var:preset|spacing|${margin}`;
+        setAttributes({
+            style: {
+                ...(attributes.style || {}),
+                spacing: {
+                    ...(attributes.style?.spacing || {}),
+                    margin: {
+                        top: presetValue,
+                        bottom: presetValue,
+                    },
+                },
+            },
+        });
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     /**
      * Processes raw input: detects iframe paste, Dzen watch-URLs, or regular URLs.
