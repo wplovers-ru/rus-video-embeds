@@ -3,7 +3,7 @@
  * Plugin Name: RUS Video Embeds - insert VK video, Rutube, Dzen
  * Plugin URI:  https://wordpress.org/plugins/rus-video-embeds/
  * Description: Embed videos from VK Video, Rutube, and Dzen — oEmbed, shortcodes, and a Gutenberg block.
- * Version:     1.1.1
+ * Version:     1.1.2
  * Author:      WPlovers
  * Author URI:  https://wplovers.ru/
  * License:     GPL-2.0-or-later
@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('RUS_VIDEO_EMBEDS_VERSION', '1.1.1');
+define('RUS_VIDEO_EMBEDS_VERSION', '1.1.2');
 define('RUS_VIDEO_EMBEDS_FILE', __FILE__);
 define('RUS_VIDEO_EMBEDS_DIR', plugin_dir_path(__FILE__));
 define('RUS_VIDEO_EMBEDS_URL', plugin_dir_url(__FILE__));

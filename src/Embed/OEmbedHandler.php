@@ -9,20 +9,17 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
 use RusVideoEmbeds\Providers\VideoProviderInterface;
 
 /**
- * Registers WordPress embed handlers for each video provider.
+ * Registers WordPress oEmbed integration for each video provider.
  *
- * When a user pastes a supported video URL on its own line in the editor,
- * WordPress automatically replaces it with a responsive iframe embed
- * via the callback registered here.
+ * Supports both core paths:
+ * - `wp_embed_register_handler()` for auto-embed in content parsing.
+ * - `pre_oembed_result` for contexts using `wp_oembed_get()` directly
+ *   (common in third-party plugins and non-post rendering pipelines).
  */
 class OEmbedHandler
 {
-
     /**
-     * Registers embed handlers for all enabled providers.
-     *
-     * Each handler is registered with wp_embed_register_handler()
-     * using the provider's URL regex pattern and a rendering callback.
+     * Registers oEmbed handlers and hooks for all enabled providers.
      *
      * @return void
      */
@@ -37,22 +34,46 @@ class OEmbedHandler
             wp_embed_register_handler(
                 "rve_{$slug}",
                 $pattern,
-                self::makeCallback($provider),
+                self::makeEmbedHandlerCallback($provider),
                 10
             );
         }
+
+        add_filter('pre_oembed_result', [self::class, 'maybeRenderPreOembedResult'], 10, 3);
     }
 
     /**
-     * Creates a closure that serves as the embed handler callback.
+     * Handles the core `pre_oembed_result` filter for direct oEmbed calls.
      *
-     * For providers that support isWatchUrl() (Dzen), returns an informational
-     * notice instead of an empty string when the URL cannot be embedded.
+     * This enables compatibility with integrations that call `wp_oembed_get()`
+     * instead of relying on post-content autoembed parsing.
+     *
+     * @param mixed  $result Existing result from earlier filters. False means continue resolving.
+     * @param string $url    URL being resolved by WordPress oEmbed.
+     * @param array  $args   Additional oEmbed arguments.
+     * @return mixed HTML string for supported providers, or original $result.
+     */
+    public static function maybeRenderPreOembedResult($result, string $url, array $args)
+    {
+        if ($result !== false) {
+            return $result;
+        }
+
+        $provider = ProviderRegistry::getInstance()->findByUrl($url);
+        if ($provider === null) {
+            return $result;
+        }
+
+        return self::renderForProvider($provider, $url);
+    }
+
+    /**
+     * Creates a callback for `wp_embed_register_handler()`.
      *
      * @param VideoProviderInterface $provider The provider to generate embed HTML for.
      * @return callable Callback compatible with wp_embed_register_handler.
      */
-    private static function makeCallback(VideoProviderInterface $provider): callable
+    private static function makeEmbedHandlerCallback(VideoProviderInterface $provider): callable
     {
         /**
          * @param array  $matches Regex matches from the URL pattern.
@@ -62,20 +83,32 @@ class OEmbedHandler
          * @return string Rendered embed HTML.
          */
         return static function (array $matches, array $attr, string $url, array $rawattr) use ($provider): string {
-            $embedUrl = $provider->getEmbedUrl($url);
-            if ($embedUrl === null) {
-                if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
-                    return EmbedRenderer::renderNotice(
-                        __('Dzen uses separate links for embedding. Click "Share" → "Embed" under the video and copy the link from the iframe code.', 'rus-video-embeds'),
-                        EmbedRenderer::getDzenNoticeUrl(),
-                        __('Learn more', 'rus-video-embeds')
-                    );
-                }
+            return self::renderForProvider($provider, $url);
+        };
+    }
 
-                return '';
+    /**
+     * Renders embed output (or Dzen notice) for the given provider and URL.
+     *
+     * @param VideoProviderInterface $provider Provider resolved for the URL.
+     * @param string                 $url      Original URL.
+     * @return string Rendered HTML, or empty string when URL is unsupported.
+     */
+    private static function renderForProvider(VideoProviderInterface $provider, string $url): string
+    {
+        $embedUrl = $provider->getEmbedUrl($url);
+        if ($embedUrl === null) {
+            if (method_exists($provider, 'isWatchUrl') && $provider->isWatchUrl($url)) {
+                return EmbedRenderer::renderNotice(
+                    __('Dzen uses separate links for embedding. Click "Share" → "Embed" under the video and copy the link from the iframe code.', 'rus-video-embeds'),
+                    EmbedRenderer::getDzenNoticeUrl(),
+                    __('Learn more', 'rus-video-embeds')
+                );
             }
 
-            return EmbedRenderer::render($embedUrl);
-        };
+            return '';
+        }
+
+        return EmbedRenderer::render($embedUrl);
     }
 }

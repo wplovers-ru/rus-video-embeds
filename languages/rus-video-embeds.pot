@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-14T16:14:03+00:00\n"
+"POT-Creation-Date: 2026-04-16T15:51:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: rus-video-embeds\n"
@@ -87,7 +87,7 @@ msgid "Unrecognized URL. Supported: VK Video, Rutube, Dzen"
 msgstr ""
 
 #: src/Block/VideoBlock.php:71
-#: src/Embed/OEmbedHandler.php:69
+#: src/Embed/OEmbedHandler.php:103
 #: src/Embed/ShortcodeHandler.php:78
 #: blocks/video/build/index.js:1
 #: blocks/video/src/edit.js:248
@@ -96,7 +96,7 @@ msgid "Dzen uses separate links for embedding. Click \"Share\" → \"Embed\" und
 msgstr ""
 
 #: src/Block/VideoBlock.php:73
-#: src/Embed/OEmbedHandler.php:71
+#: src/Embed/OEmbedHandler.php:105
 #: src/Embed/ShortcodeHandler.php:80
 #: blocks/video/build/index.js:1
 #: blocks/video/src/edit.js:259

@@ -10,6 +10,7 @@ use RusVideoEmbeds\Block\VideoBlock;
 use RusVideoEmbeds\Embed\EmbedRenderer;
 use RusVideoEmbeds\Embed\OEmbedHandler;
 use RusVideoEmbeds\Embed\ShortcodeHandler;
+use RusVideoEmbeds\Integrations\IntegrationManager;
 use RusVideoEmbeds\Providers\ProviderRegistry;
 
 /**
@@ -63,6 +64,7 @@ class Plugin
         OEmbedHandler::register();
         ShortcodeHandler::register();
         VideoBlock::register();
+        IntegrationManager::register();
     }
 
     /**
