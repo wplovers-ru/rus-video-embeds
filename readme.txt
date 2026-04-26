@@ -3,7 +3,7 @@ Contributors: wplovers, donatory
 Tags: video, embed, vkvideo, rutube, dzen
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -87,6 +87,10 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 
 == Changelog ==
 
+= 1.1.3 =
+* Renamed plugin title to "RUS Video Embeds for VK Video, Rutube and Dzen" for WordPress.org moderation compliance
+* Replaced inline embed JS with enqueued script and fixed Gutenberg preview scrollbar behavior
+
 = 1.1.2 =
 * FluentCommunity: stable refresh of VK thumbnails when editing older posts
 * FluentCommunity: media_preview now refreshes when image is missing or stale
@@ -117,6 +121,9 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 * Responsive iframe
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Renamed plugin title for moderation compliance and moved/fixed embed JS handling via WordPress enqueue pipeline.
 
 = 1.1.2 =
 Improves VK thumbnail refresh stability for older FluentCommunity posts during edits.
