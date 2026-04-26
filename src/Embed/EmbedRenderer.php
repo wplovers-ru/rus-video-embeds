@@ -15,15 +15,6 @@ defined('ABSPATH') || exit;
 class EmbedRenderer
 {
     /**
-     * Inline script that removes the scrollbar gutter inside WordPress sandbox iframes.
-     *
-     * Browsers reserve ~15px for a scrollbar track in iframes by default.
-     * This script sets overflow:hidden on the root element only when running
-     * inside an iframe (self !== top), so it has zero effect on the frontend.
-     */
-    private const SANDBOX_OVERFLOW_FIX = '<script>try{if(self!==top)document.documentElement.style.overflow="hidden"}catch(e){}</script>';
-
-    /**
      * Renders a responsive iframe embed wrapped in a .rve-wrapper div.
      *
      * @param string $embedUrl    The embed URL for the iframe src attribute.
@@ -101,8 +92,7 @@ class EmbedRenderer
 
         self::$hasEmbed = true;
 
-        return self::SANDBOX_OVERFLOW_FIX
-            . '<div class="rve-wrapper" style="' . esc_attr($wrapperStyle) . '">'
+        return '<div class="rve-wrapper" style="' . esc_attr($wrapperStyle) . '">'
             . $iframeHtml
             . '</div>';
     }
@@ -126,8 +116,7 @@ class EmbedRenderer
 
         self::$hasEmbed = true;
 
-        return self::SANDBOX_OVERFLOW_FIX
-            . '<div class="rve-notice">'
+        return '<div class="rve-notice">'
             . '<span class="rve-notice__icon" aria-hidden="true">&#8505;&#65039;</span>'
             . '<div class="rve-notice__content">'
             . '<p class="rve-notice__message">' . $safeMsg . '</p>'

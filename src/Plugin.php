@@ -36,10 +36,10 @@ class Plugin
 
         SettingsPage::register();
 
-        add_action('wp_enqueue_scripts', [self::class, 'enqueueStyles']);
-        add_action('wp_footer', [self::class, 'maybeEnqueueStyles']);
+        add_action('wp_enqueue_scripts', [self::class, 'registerFrontendAssets']);
+        add_action('wp_footer', [self::class, 'maybeEnqueueFrontendAssets']);
         add_action('enqueue_block_editor_assets', [self::class, 'localizeBlockEditorData']);
-        add_action('admin_enqueue_scripts', [self::class, 'enqueueEditorStyles']);
+        add_action('admin_enqueue_scripts', [self::class, 'enqueueEditorAssets']);
     }
 
     /**
@@ -68,14 +68,14 @@ class Plugin
     }
 
     /**
-     * Registers the embed stylesheet (does not enqueue yet).
+     * Registers frontend embed assets (without immediate enqueue).
      *
-     * The actual enqueue happens conditionally in maybeEnqueueStyles()
-     * if at least one embed was rendered during the request.
+     * Assets are conditionally enqueued in maybeEnqueueFrontendAssets()
+     * only when embed output is present in the current request.
      *
      * @return void
      */
-    public static function enqueueStyles(): void
+    public static function registerFrontendAssets(): void
     {
         wp_register_style(
             'rve-embed-styles',
@@ -83,24 +83,33 @@ class Plugin
             [],
             RUS_VIDEO_EMBEDS_VERSION
         );
+
+        wp_register_script(
+            'rve-embed-sandbox-fix',
+            RUS_VIDEO_EMBEDS_URL . 'assets/js/embed-sandbox-fix.js',
+            [],
+            RUS_VIDEO_EMBEDS_VERSION,
+            true
+        );
     }
 
     /**
-     * Enqueues the CSS in the footer only if an embed was rendered.
-     *
-     * Avoids loading CSS on pages that don't contain any plugin embeds.
+     * Enqueues frontend embed assets when an embed was rendered.
      *
      * @return void
      */
-    public static function maybeEnqueueStyles(): void
+    public static function maybeEnqueueFrontendAssets(): void
     {
-        if (EmbedRenderer::hasEmbed()) {
-            wp_enqueue_style('rve-embed-styles');
+        if (!EmbedRenderer::hasEmbed()) {
+            return;
         }
+
+        wp_enqueue_style('rve-embed-styles');
+        wp_enqueue_script('rve-embed-sandbox-fix');
     }
 
     /**
-     * Enqueues embed styles on post editing screens for Classic Editor compatibility.
+     * Enqueues embed assets on post editing screens for Classic Editor compatibility.
      *
      * Ensures oEmbed previews inside TinyMCE render without scrollbars.
      * Only loads on post.php and post-new.php screens.
@@ -108,7 +117,7 @@ class Plugin
      * @param string $hookSuffix The current admin page hook suffix.
      * @return void
      */
-    public static function enqueueEditorStyles(string $hookSuffix): void
+    public static function enqueueEditorAssets(string $hookSuffix): void
     {
         if ($hookSuffix !== 'post.php' && $hookSuffix !== 'post-new.php') {
             return;
@@ -119,6 +128,14 @@ class Plugin
             RUS_VIDEO_EMBEDS_URL . 'assets/css/embed-styles.css',
             [],
             RUS_VIDEO_EMBEDS_VERSION
+        );
+
+        wp_enqueue_script(
+            'rve-embed-sandbox-fix',
+            RUS_VIDEO_EMBEDS_URL . 'assets/js/embed-sandbox-fix.js',
+            [],
+            RUS_VIDEO_EMBEDS_VERSION,
+            true
         );
     }
 

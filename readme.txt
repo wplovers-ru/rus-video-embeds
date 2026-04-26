@@ -1,4 +1,4 @@
-=== RUS Video Embeds - insert VK video, Rutube, Dzen ===
+=== RUS Video Embeds for VK Video, Rutube and Dzen ===
 Contributors: wplovers, donatory
 Tags: video, embed, vkvideo, rutube, dzen
 Requires at least: 5.8
@@ -17,6 +17,8 @@ RUS Video Embeds adds support for Russian video hosting platforms in WordPress:
 * **VK Video** — vk.com/video*, vkvideo.ru/*
 * **Rutube** — rutube.ru/video/*
 * **Dzen** — dzen.ru/embed/* (embed links)
+
+This is an unofficial plugin and is not affiliated with VK, Rutube, or Dzen.
 
 **⚠️ Dzen notice:** Regular video links (`dzen.ru/video/watch/...`) **do not work** for embedding — Dzen uses separate embed links. When a watch-link is pasted, the plugin displays instructions on how to get the correct link. More info: [How to embed Dzen video in WordPress](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
 
