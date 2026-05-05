@@ -5,9 +5,6 @@
 /.DS_Store
 /node_modules
 /openspec
-/blocks/video/src
-/package.json
-/package-lock.json
 /languages/.gitkeep
 *.map
 /readme-ru.txt

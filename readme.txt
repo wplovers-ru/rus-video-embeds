@@ -64,6 +64,22 @@ You can also paste the entire `<iframe>` code into the Gutenberg block — the p
 
 Detailed instructions with screenshots: [How to embed Dzen video in WordPress](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
 
+== Development / Build ==
+
+JavaScript source code for block assets is included in this plugin package:
+`blocks/video/src/`
+
+Compiled production assets used at runtime are located in:
+`blocks/video/build/`
+
+Build commands:
+1. `npm install`
+2. `npm run build`
+
+Public source repositories:
+- WordPress.org plugin SVN: https://plugins.trac.wordpress.org/browser/rus-video-embeds/
+- GitHub mirror: https://github.com/wplovers-ru/rus-video-embeds
+
 == Frequently Asked Questions ==
 
 = Which video platforms are supported? =
