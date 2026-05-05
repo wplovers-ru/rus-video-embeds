@@ -129,6 +129,7 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 
 = 1.1.3 =
 * Renamed plugin title to "RUS Video Embeds for VK Video, Rutube and Dzen" for WordPress.org moderation compliance
+* Migrated plugin-specific short prefix identifiers from `rve` to `wplrve` in Settings API keys and block editor localized object
 * Replaced inline embed JS with enqueued script and fixed Gutenberg preview scrollbar behavior
 
 = 1.1.2 =

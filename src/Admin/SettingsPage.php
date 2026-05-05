@@ -16,9 +16,11 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
  */
 class SettingsPage
 {
-    private const OPTION_GROUP = 'rve_settings_group';
-    private const OPTION_NAME  = 'rve_settings';
-    private const PAGE_SLUG    = 'rve-settings';
+    private const OPTION_GROUP = 'wplrve_settings_group';
+    private const OPTION_NAME  = 'wplrve_settings';
+    private const PAGE_SLUG    = 'wplrve-settings';
+
+    private const LEGACY_OPTION_NAME = 'rve_settings';
 
     /**
      * Registers the admin menu item and settings fields.
@@ -54,6 +56,8 @@ class SettingsPage
      */
     public static function registerSettings(): void
     {
+        self::maybeMigrateLegacyOptions();
+
         register_setting(
             self::OPTION_GROUP,
             self::OPTION_NAME,
@@ -65,7 +69,7 @@ class SettingsPage
         );
 
         add_settings_section(
-            'rve_general',
+            'wplrve_general',
             __('General Settings', 'rus-video-embeds'),
             '__return_false',
             self::PAGE_SLUG
@@ -76,7 +80,7 @@ class SettingsPage
             __('Default Width (px)', 'rus-video-embeds'),
             [self::class, 'renderNumberField'],
             self::PAGE_SLUG,
-            'rve_general',
+            'wplrve_general',
             ['field' => 'default_width']
         );
 
@@ -85,7 +89,7 @@ class SettingsPage
             __('Default Height (px)', 'rus-video-embeds'),
             [self::class, 'renderNumberField'],
             self::PAGE_SLUG,
-            'rve_general',
+            'wplrve_general',
             ['field' => 'default_height']
         );
 
@@ -94,7 +98,7 @@ class SettingsPage
             __('Default Autoplay', 'rus-video-embeds'),
             [self::class, 'renderCheckboxField'],
             self::PAGE_SLUG,
-            'rve_general',
+            'wplrve_general',
             ['field' => 'default_autoplay']
         );
 
@@ -103,7 +107,7 @@ class SettingsPage
             __('Enabled Providers', 'rus-video-embeds'),
             [self::class, 'renderProvidersField'],
             self::PAGE_SLUG,
-            'rve_general'
+            'wplrve_general'
         );
 
         add_settings_field(
@@ -111,8 +115,32 @@ class SettingsPage
             __('Default Vertical Margin', 'rus-video-embeds'),
             [self::class, 'renderMarginField'],
             self::PAGE_SLUG,
-            'rve_general'
+            'wplrve_general'
         );
+    }
+
+
+    /**
+     * Migrates legacy option values to the new unique option key.
+     *
+     * Runs on admin init before setting registration to keep existing
+     * user preferences after the prefix migration (`rve` -> `wplrve`).
+     *
+     * @return void
+     */
+    private static function maybeMigrateLegacyOptions(): void
+    {
+        $newOptions = get_option(self::OPTION_NAME, null);
+        if (is_array($newOptions) && $newOptions !== []) {
+            return;
+        }
+
+        $legacyOptions = get_option(self::LEGACY_OPTION_NAME, null);
+        if (!is_array($legacyOptions) || $legacyOptions === []) {
+            return;
+        }
+
+        update_option(self::OPTION_NAME, $legacyOptions);
     }
 
     /**

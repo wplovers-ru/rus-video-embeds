@@ -101,7 +101,7 @@ class ProviderRegistry
      */
     public function getEnabledProviders(): array
     {
-        $options = get_option('rve_settings', []);
+        $options = get_option('wplrve_settings', get_option('rve_settings', []));
         $enabled = $options['enabled_providers'] ?? array_keys($this->providers);
 
         return array_filter(

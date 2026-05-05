@@ -87,8 +87,8 @@ function extractDzenEmbedFromIframe(input) {
  * @returns {string} The notice URL with UTM parameters.
  */
 function getDzenNoticeUrl() {
-    if (typeof window.rveBlockData !== 'undefined' && window.rveBlockData.dzenNoticeUrl) {
-        return window.rveBlockData.dzenNoticeUrl;
+    if (typeof window.wplrveBlockData !== 'undefined' && window.wplrveBlockData.dzenNoticeUrl) {
+        return window.wplrveBlockData.dzenNoticeUrl;
     }
     return 'https://wplovers.ru/dzen-wordpress/';
 }
@@ -128,8 +128,8 @@ export default function Edit({ attributes, setAttributes }) {
         }
 
         const margin =
-            typeof window.rveBlockData !== 'undefined'
-                ? window.rveBlockData.defaultVerticalMargin
+            typeof window.wplrveBlockData !== 'undefined'
+                ? window.wplrveBlockData.defaultVerticalMargin
                 : '';
 
         if (!margin) {
