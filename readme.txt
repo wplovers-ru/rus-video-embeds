@@ -64,6 +64,30 @@ You can also paste the entire `<iframe>` code into the Gutenberg block — the p
 
 Detailed instructions with screenshots: [How to embed Dzen video in WordPress](https://wplovers.ru/dzen-wordpress/?utm_source=wordpress.org&utm_content=dzen_embed)
 
+== External services ==
+
+This plugin uses external services to resolve and display video preview images in the FluentCommunity integration.
+
+1) **VK video embed page (`vk.com`, `vkvideo.ru`)**
+- **What the service is used for:** The plugin requests the video embed page to extract preview image metadata for FluentCommunity cards.
+- **What data is sent and when:** When a VK preview is generated or refreshed, WordPress sends an outbound HTTP GET request to the video embed URL. The request includes the target video URL and a standard WordPress user agent string (`WP-URLDetails/... (+site-url)`).
+- **Provider links:** Terms of Service: https://vk.com/terms ; Privacy Policy: https://vk.com/privacy
+
+2) **VK preview image CDN (`iv.okcdn.ru`)**
+- **What the service is used for:** The plugin builds and uses the final VK preview image URL from `iv.okcdn.ru` to show the thumbnail in FluentCommunity previews.
+- **What data is sent and when:** When preview metadata is parsed for VK embeds, the plugin constructs an external image URL on `iv.okcdn.ru`. The browser and/or WordPress may request this image URL when rendering preview cards.
+- **Provider links:** Terms of Service: https://ok.ru/regulations ; Privacy Policy: https://ok.ru/privacy
+
+3) **Rutube preview image CDN (`rtbcdn.ru`)**
+- **What the service is used for:** Rutube thumbnails used in preview cards are loaded from Rutube CDN domains such as `rtbcdn.ru`.
+- **What data is sent and when:** When a Rutube URL is parsed by FluentCommunity (`RemoteUrlParser`) and the preview is rendered, the thumbnail URL returned by Rutube metadata is requested by the browser/WordPress.
+- **Provider links:** Terms of Service: https://rutube.ru/info/agreement/ ; Privacy Policy: https://rutube.ru/info/privacy/
+
+4) **Dzen preview image CDN (`avatars.dzeninfra.ru`)**
+- **What the service is used for:** Dzen thumbnails used in preview cards are loaded from Dzen infrastructure domains such as `avatars.dzeninfra.ru`.
+- **What data is sent and when:** When a Dzen URL is parsed by FluentCommunity (`RemoteUrlParser`) and the preview is rendered, the thumbnail URL returned by Dzen metadata is requested by the browser/WordPress.
+- **Provider links:** Terms of Service: https://dzen.ru/legal/ru/termsofuse/index.html ; Privacy Policy: https://yandex.ru/legal/confidential/
+
 == Development / Build ==
 
 JavaScript source code for block assets is included in this plugin package:
