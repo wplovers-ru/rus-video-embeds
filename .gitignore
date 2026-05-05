@@ -7,3 +7,5 @@ composer.phar
 readme-ru.txt
 wp-assets/
 src/**/.DS_Store
+.build/
+**/.DS_Store

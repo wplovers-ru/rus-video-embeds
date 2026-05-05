@@ -9,3 +9,4 @@
 *.map
 /readme-ru.txt
 /wp-assets
+**/.DS_Store
