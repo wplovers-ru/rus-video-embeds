@@ -20,7 +20,6 @@ class SettingsPage
     private const OPTION_NAME  = 'wplrve_settings';
     private const PAGE_SLUG    = 'wplrve-settings';
 
-    private const LEGACY_OPTION_NAME = 'rve_settings';
 
     /**
      * Registers the admin menu item and settings fields.
@@ -56,8 +55,6 @@ class SettingsPage
      */
     public static function registerSettings(): void
     {
-        self::maybeMigrateLegacyOptions();
-
         register_setting(
             self::OPTION_GROUP,
             self::OPTION_NAME,
@@ -119,29 +116,6 @@ class SettingsPage
         );
     }
 
-
-    /**
-     * Migrates legacy option values to the new unique option key.
-     *
-     * Runs on admin init before setting registration to keep existing
-     * user preferences after the prefix migration (`rve` -> `wplrve`).
-     *
-     * @return void
-     */
-    private static function maybeMigrateLegacyOptions(): void
-    {
-        $newOptions = get_option(self::OPTION_NAME, null);
-        if (is_array($newOptions) && $newOptions !== []) {
-            return;
-        }
-
-        $legacyOptions = get_option(self::LEGACY_OPTION_NAME, null);
-        if (!is_array($legacyOptions) || $legacyOptions === []) {
-            return;
-        }
-
-        update_option(self::OPTION_NAME, $legacyOptions);
-    }
 
     /**
      * Renders the settings page HTML.

@@ -3,7 +3,7 @@ Contributors: wplovers, donatory
 Tags: video, embed, vkvideo, rutube, dzen
 Requires at least: 5.8
 Tested up to: 6.9
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -127,6 +127,11 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 
 == Changelog ==
 
+= 1.1.4 =
+* Added clear "External services" disclosure with data flow and Terms/Privacy links for VK, OK CDN, Rutube CDN, and Dzen CDN
+* Documented JS source/build workflow in readme for WordPress.org human-readable code compliance
+* Standardized plugin-specific runtime prefixes to canonical `wplrve` and removed short `rve` identifiers
+
 = 1.1.3 =
 * Renamed plugin title to "RUS Video Embeds for VK Video, Rutube and Dzen" for WordPress.org moderation compliance
 * Migrated plugin-specific short prefix identifiers from `rve` to `wplrve` in Settings API keys and block editor localized object
@@ -162,6 +167,9 @@ Dzen uses different links for viewing and embedding. A regular link like `dzen.r
 * Responsive iframe
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Adds moderation-focused compliance updates: external services disclosure, build/source documentation in readme, and canonical `wplrve` prefixes.
 
 = 1.1.3 =
 Renamed plugin title for moderation compliance and moved/fixed embed JS handling via WordPress enqueue pipeline.

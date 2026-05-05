@@ -176,7 +176,7 @@ class EmbedRenderer
      */
     private static function getDefaults(): array
     {
-        $options = get_option('wplrve_settings', get_option('rve_settings', []));
+        $options = get_option('wplrve_settings', []);
 
         return [
             'width'          => (int) ($options['default_width'] ?? 0),

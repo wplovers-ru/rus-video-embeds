@@ -32,7 +32,7 @@ class OEmbedHandler
             $pattern = $provider->getUrlPattern();
 
             wp_embed_register_handler(
-                "rve_{$slug}",
+                "wplrve_{$slug}",
                 $pattern,
                 self::makeEmbedHandlerCallback($provider),
                 10

@@ -23,8 +23,7 @@ use RusVideoEmbeds\Providers\ProviderRegistry;
  */
 class Plugin
 {
-    private const SETTINGS_OPTION_NAME        = 'wplrve_settings';
-    private const LEGACY_SETTINGS_OPTION_NAME = 'rve_settings';
+    private const SETTINGS_OPTION_NAME = 'wplrve_settings';
 
     /**
      * Bootstraps the plugin by registering all hooks.
@@ -152,12 +151,6 @@ class Plugin
         $handle = 'rus-video-embeds-video-editor-script';
 
         $options = get_option(self::SETTINGS_OPTION_NAME, []);
-        if (!is_array($options) || $options === []) {
-            $legacyOptions = get_option(self::LEGACY_SETTINGS_OPTION_NAME, []);
-            if (is_array($legacyOptions)) {
-                $options = $legacyOptions;
-            }
-        }
 
         wp_localize_script($handle, 'wplrveBlockData', [
             'siteDomain'            => wp_parse_url(home_url(), PHP_URL_HOST) ?: '',
